@@ -1,5 +1,50 @@
+:root {
+  --gray-transp:rgb(195 195 195 / 23%);;
+}
+
 .App {
   text-align: center;
+}
+
+.width-full{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pt-6r{
+  padding-top: 6rem;
+}
+.pr-3{
+  padding: 0 3rem 0 0rem;
+}
+
+.bg-light-tr{
+  background-color: #ffffffe3!important;
+  border-bottom: 1px rgb(216, 215, 215) solid;
+}
+.bg-gray{
+  background-color: var(--gray-transp)
+}
+
+.bg-dark-light{
+  background-color:#212529!important
+}
+
+img.lock{
+  height: 13rem;
+
+}
+
+.navbar-brand{
+  font-family: "Brush Script MT";
+  font-size: 1.5rem;
+}
+
+.bottom-polygon{
+  height: 6rem;
+  /*clip-path: polygon(0% 0%, 100% 0%, 100% 67%, 78% 41%, 47% 69%, 23% 34%, 0% 75%);*/
+  
 }
 
 .App-logo {
@@ -35,4 +80,43 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* test styles*/
+a{
+  color: rgba(0,0,0,.55);
+  text-decoration: none;
+}
+.icon{
+  height: 5rem;
+  width: 5rem;
+  font-size: 1.75rem;
+}
+.icon-bubble{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  flex-shrink: 0;
+}
+
+.icon.icon-bubble:hover{
+  background-color: #5b6d80!important;
+  border: 2px #212529 solid;
+}
+
+.width-full>form{
+  width: 30rem;
+}
+
+.display-none{
+  display: none!important;
+}
+
+input#formHash{
+  border-radius: 0.8rem!important;
+}
+
+.float-right{
+  float: right!important;
 }
