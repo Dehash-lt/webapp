@@ -7,7 +7,6 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import { Link } from "react-scroll";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { AnyMxRecord } from 'dns';
 import { Ball, LoadingAnimation } from './Components/LoadingBall/LoadingBall';
 import axios from 'axios';
 
@@ -26,7 +25,6 @@ function App() {
   <></>
 }
 
-
     <MenuBar/>
     <Container id="section" fluid className="pt-5 bg-dark-light ">
       <Row className="mt-5">
@@ -44,9 +42,6 @@ function App() {
       <div className="width-full">
       <Form onSubmit={
         (event:any) => {
-          /**
-           * Prevent submit from reloading the page
-           */
           setLoading(true);
           event.preventDefault();
           event.stopPropagation();
@@ -56,7 +51,7 @@ function App() {
               return(result)
             })
             .then(result =>{
-              if(result.data==="Error\n"){
+              if(result.data==="Error"){
                 setResults(JSON.parse('{"Error":"Unsupported data format"}'))
               }
               else{
@@ -184,7 +179,6 @@ class ChangingText extends Component <any, any>{
     </div>
     );
   }
-
 }
 
 const renderTooltip = (props:any) => (
@@ -193,54 +187,33 @@ const renderTooltip = (props:any) => (
   </Tooltip>
 );
 
-const query = (input:string)=>{
-  axios.get('/api.php?search='+input+'&json=1')
- // fetch('/api.php?search='+input+'&json=1',{ method: "GET"})
-  .then(response => {
-    /*
-    Object.keys(response.data).forEach(key=>{
-      console.log(key);
-    })*/
-    
-})
-}
-
 const displayResults = (results:any)=>{
-
   if(Object.keys(results).length != 0){
     try{
       return(
         <div className="pt-3 text-light border border-light rounded " style={{backgroundColor:"rgba(255, 255, 255, 0.32)"}}>
-        <Table striped bordered hover variant="dark">
-       
-        {results? ( 
-          
-          Object.keys(results).map((key,value)=>{
-
-            return(
-              <>
-                      <thead>
-                  <tr>
-                    <th>{key}</th>
-                    <th>Results</th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                  {results[key]["results"].map((value1:any)=>{
-                    console.log(value1)
-                    return(<tr className=""><td></td><td>{value1}</td></tr>)
-                  })}
-                </tbody>
-              </>
-            )
-          })
-          
-          ):
-          (
-            <></>
-          )}
-          
+          <Table striped bordered hover variant="dark">
+          {results? ( 
+            Object.keys(results).map((key,value)=>{
+              return(
+                <>
+                  <thead>
+                    <tr>
+                      <th>{key}</th>
+                      <th>Results</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {results[key]["results"].map((value1:any)=>{
+                      console.log(value1)
+                      return(<tr className=""><td></td><td>{value1}</td></tr>)
+                    })}
+                  </tbody>
+                </>
+              )
+            })
+            ):(<></>)
+          }
           </Table>
         </div>
         )
@@ -253,18 +226,8 @@ const displayResults = (results:any)=>{
   }
 
   else{
-    return(
-    <></>
-    )
+    return(<><p>No Results :( </p></>)
   }
 }
 
-
-function inputSubmitHandler(event:any) {
-  event.preventDefault();
-}
-
 export default App;
- /**
-  * <Button variant="primary">Primary</Button>
-  */
