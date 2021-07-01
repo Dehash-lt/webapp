@@ -45,7 +45,7 @@ function App() {
           setLoading(true);
           event.preventDefault();
           event.stopPropagation();
-          axios.get('https://dehash.lt/api.php?search='+event.target[0].value+'&json=1')
+          axios.get('https://api.dehash.lt/api.php?search='+event.target[0].value+'&json=1')
             .then(result=>{
               console.log(result);
               return(result)
