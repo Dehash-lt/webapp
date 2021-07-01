@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Dehash.lt_WebApp/static/css/main.d9afc1cf.chunk.css",
-    "main.js": "/Dehash.lt_WebApp/static/js/main.4809ee8c.chunk.js",
-    "main.js.map": "/Dehash.lt_WebApp/static/js/main.4809ee8c.chunk.js.map",
+    "main.js": "/Dehash.lt_WebApp/static/js/main.4a7bc7fe.chunk.js",
+    "main.js.map": "/Dehash.lt_WebApp/static/js/main.4a7bc7fe.chunk.js.map",
     "runtime-main.js": "/Dehash.lt_WebApp/static/js/runtime-main.ac16a973.js",
     "runtime-main.js.map": "/Dehash.lt_WebApp/static/js/runtime-main.ac16a973.js.map",
     "static/css/2.fb17aa6d.chunk.css": "/Dehash.lt_WebApp/static/css/2.fb17aa6d.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.fb17aa6d.chunk.css",
     "static/js/2.44a0ffed.chunk.js",
     "static/css/main.d9afc1cf.chunk.css",
-    "static/js/main.4809ee8c.chunk.js"
+    "static/js/main.4a7bc7fe.chunk.js"
   ]
 }
