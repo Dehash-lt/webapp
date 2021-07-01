@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/Dehash/static/css/main.d9afc1cf.chunk.css",
-    "main.js": "/Dehash/static/js/main.8f603c2b.chunk.js",
-    "main.js.map": "/Dehash/static/js/main.8f603c2b.chunk.js.map",
-    "runtime-main.js": "/Dehash/static/js/runtime-main.c3b781ba.js",
-    "runtime-main.js.map": "/Dehash/static/js/runtime-main.c3b781ba.js.map",
-    "static/css/2.fb17aa6d.chunk.css": "/Dehash/static/css/2.fb17aa6d.chunk.css",
-    "static/js/2.44a0ffed.chunk.js": "/Dehash/static/js/2.44a0ffed.chunk.js",
-    "static/js/2.44a0ffed.chunk.js.map": "/Dehash/static/js/2.44a0ffed.chunk.js.map",
-    "static/js/3.02608a82.chunk.js": "/Dehash/static/js/3.02608a82.chunk.js",
-    "static/js/3.02608a82.chunk.js.map": "/Dehash/static/js/3.02608a82.chunk.js.map",
-    "index.html": "/Dehash/index.html",
-    "static/css/2.fb17aa6d.chunk.css.map": "/Dehash/static/css/2.fb17aa6d.chunk.css.map",
-    "static/css/main.d9afc1cf.chunk.css.map": "/Dehash/static/css/main.d9afc1cf.chunk.css.map",
-    "static/js/2.44a0ffed.chunk.js.LICENSE.txt": "/Dehash/static/js/2.44a0ffed.chunk.js.LICENSE.txt"
+    "main.css": "/Dehash.lt_WebApp/static/css/main.d9afc1cf.chunk.css",
+    "main.js": "/Dehash.lt_WebApp/static/js/main.4809ee8c.chunk.js",
+    "main.js.map": "/Dehash.lt_WebApp/static/js/main.4809ee8c.chunk.js.map",
+    "runtime-main.js": "/Dehash.lt_WebApp/static/js/runtime-main.ac16a973.js",
+    "runtime-main.js.map": "/Dehash.lt_WebApp/static/js/runtime-main.ac16a973.js.map",
+    "static/css/2.fb17aa6d.chunk.css": "/Dehash.lt_WebApp/static/css/2.fb17aa6d.chunk.css",
+    "static/js/2.44a0ffed.chunk.js": "/Dehash.lt_WebApp/static/js/2.44a0ffed.chunk.js",
+    "static/js/2.44a0ffed.chunk.js.map": "/Dehash.lt_WebApp/static/js/2.44a0ffed.chunk.js.map",
+    "static/js/3.02608a82.chunk.js": "/Dehash.lt_WebApp/static/js/3.02608a82.chunk.js",
+    "static/js/3.02608a82.chunk.js.map": "/Dehash.lt_WebApp/static/js/3.02608a82.chunk.js.map",
+    "index.html": "/Dehash.lt_WebApp/index.html",
+    "static/css/2.fb17aa6d.chunk.css.map": "/Dehash.lt_WebApp/static/css/2.fb17aa6d.chunk.css.map",
+    "static/css/main.d9afc1cf.chunk.css.map": "/Dehash.lt_WebApp/static/css/main.d9afc1cf.chunk.css.map",
+    "static/js/2.44a0ffed.chunk.js.LICENSE.txt": "/Dehash.lt_WebApp/static/js/2.44a0ffed.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c3b781ba.js",
+    "static/js/runtime-main.ac16a973.js",
     "static/css/2.fb17aa6d.chunk.css",
     "static/js/2.44a0ffed.chunk.js",
     "static/css/main.d9afc1cf.chunk.css",
-    "static/js/main.8f603c2b.chunk.js"
+    "static/js/main.4809ee8c.chunk.js"
   ]
 }
