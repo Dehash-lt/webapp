@@ -143,3 +143,55 @@ input#formHash{
   border-style: dashed!important;
   border-width: 0.15rem!important;
 }
+
+.responsive-popover{
+  max-width: 10rem;
+}
+
+
+@media only screen and (max-width: 282px) {
+  /* For tablets: */
+  .responsive-popover{
+    max-width: 15rem;
+  }
+}
+
+@media only screen and (min-width: 283px) {
+  /* For tablets: */
+  .responsive-popover{
+    max-width: 15rem;
+  }
+}
+
+@media only screen and (min-width: 360px) {
+  /* For tablets: */
+  .responsive-popover{
+    max-width: 20rem;
+  }
+
+}
+
+@media only screen and (min-width: 568px) {
+  .responsive-popover{
+    max-width: 30rem;
+  }
+
+}
+
+@media only screen and (min-width: 890px) {
+  .responsive-popover{
+    max-width: 40rem;
+  }
+}
+
+@media only screen and (min-width: 1250px) {
+  .responsive-popover{
+    max-width: 50rem;
+  }
+}
+
+@media only screen and (min-width: 1350px) {
+  .responsive-popover{
+    max-width: unset;
+  }
+}
