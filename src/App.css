@@ -87,11 +87,23 @@ a{
   color: rgba(0,0,0,.55);
   text-decoration: none;
 }
+
+i.fab:hover{
+  color: #959797!important;
+}
+
 .icon{
   height: 5rem;
   width: 5rem;
   font-size: 1.75rem;
 }
+
+.icon-lg{
+  height: 7rem;
+  width: 7rem;
+  font-size: 1.75rem;
+}
+
 .icon-bubble{
   display: inline-flex;
   justify-content: center;
@@ -100,7 +112,7 @@ a{
   flex-shrink: 0;
 }
 
-.icon.icon-bubble:hover{
+.icon-bubble.icon:hover{
   background-color: #5b6d80!important;
   border: 2px #212529 solid;
 }
@@ -119,4 +131,15 @@ input#formHash{
 
 .float-right{
   float: right!important;
+}
+
+
+
+.font-weight-bold{
+  font-weight: bold;
+}
+
+.border-dashed{
+  border-style: dashed!important;
+  border-width: 0.15rem!important;
 }
