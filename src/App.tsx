@@ -265,7 +265,7 @@ class AboutUs extends Component <any, any>{
                     </div>
                 </div>
             </Col>
-            <Col className="col-lg-3 col-md-6 mb-5" data-aos={"fade-up"} data-aos-delay="100">
+            <Col className="col-lg-3 col-md-6 mb-5" data-aos={"fade-left"} data-aos-delay="100">
                 <div className="card text-center text-decoration-none h-100 lift">
                     <div className="card-body ">
                         <img className={"icon-bubble icon-lg border border-dark border-dashed"} src={process.env.PUBLIC_URL + '/img/Tomas.png'}></img>
@@ -274,18 +274,6 @@ class AboutUs extends Component <any, any>{
                         <a className={"fab fa-linkedin-in mx-1"}></a>
                         <a className={"fab fa-github-square mx-1"} onClick={()=> window.open("https://github.com/Dehash-lt", "_blank")}></a>
                         <a className={"fab fa-bitcoin mx-1"}></a>
-                    </div>
-                </div>
-            </Col>
-            <Col className="col-lg-3 col-md-6 mb-5" data-aos={"fade-left"} data-aos-delay="150">
-                <div className="card text-center text-decoration-none h-100 lift">
-                    <div className="card-body ">
-                        <img className={"icon-bubble icon-lg border border-dark border-dashed"} src={process.env.PUBLIC_URL + '/img/Tomas.png'}></img>
-                        <p className={"font-weight-bold small mt-1"}>Tomas Vanagas 2</p>
-                        <p className={"small mt-1"}>Ultra Manager</p>
-                        <a className="fab fa-linkedin-in mx-1"></a>
-                        <a className="fab fa-github-square mx-1" onClick={()=> window.open("https://github.com/Dehash-lt", "_blank")}></a>
-                        <a className="fab fa-bitcoin mx-1"></a>
                     </div>
                 </div>
             </Col>
