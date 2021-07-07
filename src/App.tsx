@@ -294,12 +294,12 @@ class DataSources extends Component <any, any>{
 
 render(){
   return(
-    <Container>
+    <Container >
       <h1>Data Sources</h1>
       <p>Our data have been collected over many years from a variety of sources</p>
       <Row className="mt-5">
         <Col>
-          <OverlayTrigger placement="right" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data from our reaserch')}>
+          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data from our reaserch')}>
             <div className="icon icon-bubble bg-dark" data-aos={"zoom-in-right"}>
               <i className="fas fa-book text-light"></i>
             </div>
@@ -307,13 +307,13 @@ render(){
           <p>Research</p>
         </Col>
         <Col>
-          <OverlayTrigger placement="right" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data Leaks and breaches published on internet')}>
+          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data Leaks and breaches published on internet')}>
             <div className="icon icon-bubble bg-dark" data-aos="zoom-in"><i className="fas fa-database text-light"></i></div>
           </OverlayTrigger>
           <p>Data Leaks</p>
         </Col>
         <Col>
-          <OverlayTrigger placement="right" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Publicly available information hashtables and other information from different sources like Crackstation')}>
+          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Publicly available information hashtables and other information from different sources like Crackstation')}>
             <div className="icon icon-bubble bg-dark" data-aos="zoom-in-left"><i className="fas fa-server text-light"></i></div>
           </OverlayTrigger>
           <p>Public information</p>
