@@ -110,6 +110,7 @@ i.fab:hover{
   align-items: center;
   border-radius: 100%;
   flex-shrink: 0;
+  object-fit: cover;
 }
 
 .icon-bubble.icon:hover{
