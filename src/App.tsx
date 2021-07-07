@@ -247,33 +247,30 @@ class AboutUs extends Component <any, any>{
         <Row className=" gx-5 justify-content-center">
           <Col className="col-lg-6">
             <div className="text-center">
-              <h4 className="mb-5">We are BlaBlaBla and doing BlobBlobBlob</h4>
+              <h5 className="mb-5 mt-2">We are Cybersecurity Enthusiasts - Dehash Team</h5>
             </div>
           </Col>
         </Row>
         <Row className="gx-5 justify-content-center">
-          <p>Dehash Team</p>
             <Col className="col-lg-3 col-md-6 mb-5" data-aos={"fade-right"} >
                 <div className="card text-center text-decoration-none h-100 lift">
                     <div className="card-body ">
-                        <img className={"icon-bubble icon-lg border border-dark border-dashed"} src={process.env.PUBLIC_URL + '/img/Eimantas.png'}></img>
+                        <img className={"icon-bubble icon-lg border border-dark border-dashed"} src={process.env.PUBLIC_URL + '/img/Eimantas.jpeg'}></img>
                         <p className={"font-weight-bold small mt-1"}>Eimantas Rebždys</p>
-                        <p className={"small mt-1"}>Manager</p>
-                        <a className="fab fa-linkedin-in mx-1"></a>
-                        <a className="fab fa-github-square mx-1" onClick={()=> window.open("https://github.com/Dehash-lt", "_blank")}></a>
-                        <a className="fab fa-bitcoin mx-1"></a>
+                        <p className={"small mt-1"}>Front-End Engineer</p>
+                        <a className="fab fa-linkedin-in mx-1" onClick={()=> window.open("https://lt.linkedin.com/in/eimantas-rebždys-8b130616a", "_blank")}></a>
+                        <a className="fab fa-github-square mx-1" onClick={()=> window.open("https://github.com/EimantasRebzdys", "_blank")}></a>
                     </div>
                 </div>
             </Col>
             <Col className="col-lg-3 col-md-6 mb-5" data-aos={"fade-left"} data-aos-delay="100">
                 <div className="card text-center text-decoration-none h-100 lift">
                     <div className="card-body ">
-                        <img className={"icon-bubble icon-lg border border-dark border-dashed"} src={process.env.PUBLIC_URL + '/img/Tomas.png'}></img>
+                        <img className={"icon-bubble icon-lg border border-dark border-dashed"} src={process.env.PUBLIC_URL + '/img/TomasV.jpg'}></img>
                         <p className={"font-weight-bold small mt-1"}>Tomas Vanagas</p>
-                        <p className={"small mt-1"}>Super Manager</p>
-                        <a className={"fab fa-linkedin-in mx-1"}></a>
-                        <a className={"fab fa-github-square mx-1"} onClick={()=> window.open("https://github.com/Dehash-lt", "_blank")}></a>
-                        <a className={"fab fa-bitcoin mx-1"}></a>
+                        <p className={"small mt-1"}>Back-End Engineer</p>
+                        <a className={"fab fa-linkedin-in mx-1"} onClick={()=> window.open("https://lt.linkedin.com/in/tomas-vanagas-147332120", "_blank")}></a>
+                        <a className={"fab fa-github-square mx-1"} onClick={()=> window.open("https://github.com/tomasvanagas", "_blank")}></a>
                     </div>
                 </div>
             </Col>
@@ -331,7 +328,7 @@ render(){
 class Footer extends Component <any,any>{
   render(){
     return(
-      <Container fluid className="bg-dark text-white">
+      <Container fluid className="bg-dark text-white ">
         <Row>
           <Col className="d-inline-flex justify-content-center">
             <p className="mb-0 pb-2">© Tomas & Eimantas<br/>Lithuania, Kaunas</p>
