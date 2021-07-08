@@ -88,6 +88,10 @@ a{
   text-decoration: none;
 }
 
+a:hover{
+  color:#0a58ca!important;
+}
+
 i.fab:hover{
   color: #959797!important;
 }
@@ -147,6 +151,22 @@ input#formHash{
 
 .responsive-popover{
   max-width: 10rem;
+}
+
+.toast{
+  position: fixed;
+  top: 5rem;
+  right: 1rem;
+}
+
+.toast img{
+  height:0.7rem;
+  width: 0.7rem;
+}
+
+.toast .toastHead{
+  width: 90%;
+  text-align:left;
 }
 
 

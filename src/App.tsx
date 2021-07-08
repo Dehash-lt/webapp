@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Button from 'react-bootstrap/Button';
-import { Col, Container, Form, Nav, Navbar, Overlay, OverlayTrigger, Popover, Row, Table, Tooltip } from 'react-bootstrap';
+import { Col, Container, Form, Nav, Navbar,Toast, OverlayTrigger, Popover, Row, Table, Tooltip } from 'react-bootstrap';
 import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import { Link } from "react-scroll";
@@ -17,6 +17,9 @@ function App() {
   const [isLoading, setLoading] = useState(false);
   const [results, setResults] = useState(JSON.parse('{}'));
   const [count, setCount] = useState(0);
+  const [toastState, setToastState] = useState({text:"",show:false,})
+
+
   return (
     <div className="App bg-light">
       { isLoading === true ?
@@ -46,29 +49,37 @@ function App() {
                 event.preventDefault();
                 event.stopPropagation();
                 axios.get('https://api.dehash.lt/api.php?json=1&search='+event.target[0].value)
-                  .then(result=>{
-                    console.log(result);
-                    return(result);
-                  })
                   .then(result =>{
                     if(result.data==="Error"){
-                      setResults(JSON.parse('{"Error":"Unsupported data format"}'));
+                      setResults(JSON.parse('{"https:\/\/dehash.lt Error": {"results": ["Unsupported request format"]}}'));
                     }
                     else{
                       setResults(result.data);
                       setCount(count + 1);
                     }
                   })
-                  .then(()=>setLoading(false));
+                  .then(()=>setLoading(false))
+                  .catch((err)=>{
+                    setLoading(false);
+                    if(err.status == 400 || err.status == 404){
+                      setToastState({text:"Unsupported request format",show:true,});
+                    }
+                    else{
+                      setToastState({text:"Unsupported request format",show:true,});
+                    }
+
+                  })
               }
             }
             >
               <Form.Row className="d-flex">
-               
                 <Col xs="auto" className="flex-fill">
                   <Form.Label>
                     Hash
                   </Form.Label>
+                  <Toast onClose={() =>{setToastState({text:"",show:false,});} } show={toastState.show} delay={3000} autohide>
+                    <CustomToast text={toastState.text}></CustomToast>
+                  </Toast>
                   <Form.Control type="hash" placeholder="Email, Hash or Email:Hash" />
                   <Form.Text className="text-muted">
                     We collect your submited data (IP, User Agent, Query).
@@ -122,6 +133,7 @@ function MenuBar(){
               <Nav.Link><Link  to="section" href="#home">Home</Link></Nav.Link>
               <Nav.Link><Link  to="section1" href="#about">About Us</Link></Nav.Link>
               <Nav.Link><Link  to="section2" href="#data">Data Sources</Link></Nav.Link>
+              <Nav.Link><a onClick={()=> window.open("https://github.com/Dehash-lt/api#dehashlt-api", "_blank")}>API</a></Nav.Link>
             </Nav>
           </NavbarCollapse>
         </Container>
@@ -170,14 +182,14 @@ class SupportedTypesPopover extends Component <any, any>{
   
   render(){
     return (
-      <OverlayTrigger placement="auto" show={this.state.isPopoverVisible} delay={{ show: 200, hide: 400 }} overlay={
+      <OverlayTrigger trigger={['hover', 'focus']} placement="auto" show={this.state.isPopoverVisible} delay={{ show: 200, hide: 400 }} overlay={
         <Popover className="overflow-hidden" id="Supported_Types_Popover" style={{maxWidth:'50rem'}} 
           onMouseLeave={()=>{
           this.setState({isPopoverVisible: false})
           }}
         >
           <div className="responsive-popover" style={{ overflow:'scroll'}}>
-            <Table striped bordered hover variant="dark" className="mb-0" style={{maxWidth:'10rem'}}>
+            <Table striped bordered hover variant="dark" id="popover" className="mb-0" style={{maxWidth:'10rem'}}>
               <thead>
                 <tr>
                   <th>Supported Types</th><th>Dataset Size</th><th>Example</th>
@@ -210,6 +222,11 @@ class SupportedTypesPopover extends Component <any, any>{
         <i className="fas fa-lg fa-info-circle text-muted align-self-center mt-2 mx-1" 
         onMouseEnter={() =>{
           this.setState({isPopoverVisible: true})
+        }}
+        onMouseLeave={() =>{
+          if (!document.getElementById("popover")?.matches(':hover')) {
+            this.setState({isPopoverVisible: false})
+          }
         }}
         onClick={
           ()=>{
@@ -296,7 +313,7 @@ render(){
   return(
     <Container >
       <h1>Data Sources</h1>
-      <p>We are using pubicly available data from data leaks like Collection #1-5 and wordlists like Crackstation.</p>
+      <p>We are using publicly available data from data leaks like Collection #1-5 and wordlists like Crackstation.</p>
       <Row className="mt-5">
         <Col>
           <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data submited by our users e.g. hashes')}>
@@ -313,7 +330,7 @@ render(){
           <p>Data Leaks</p>
         </Col>
         <Col>
-          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Publicly available information hashtables and other information from different sources like Crackstation')}>
+          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Publicly available hashtables and other information from different sources like Crackstation')}>
             <div className="icon icon-bubble bg-dark" data-aos="zoom-in-left"><i className="fas fa-server text-light"></i></div>
           </OverlayTrigger>
           <p>Public information</p>
@@ -340,6 +357,23 @@ class Footer extends Component <any,any>{
   }
 }
 
+const CustomToast = (props:any)=>(
+      <>
+          <Toast.Header>
+            <div className="toastHead" >
+              <img
+                src="/img/lock.png"
+                className="rounded mx-2"
+                alt=""
+              />
+              <strong className="mr-auto">Dehas.lt</strong>
+              <small className=" right mx-3">Now</small>
+            </div>
+          </Toast.Header>
+          <Toast.Body>{props.text}</Toast.Body>
+      </>
+)
+
 const renderTooltip = (props:any) => (
   <Tooltip id="button-tooltip" {...props}>
     {props}
@@ -351,7 +385,7 @@ const displayResults = (results:any, count:any)=>{
   if(Object.keys(results).length !== 0){
     try{
       return(
-        <div className="pt-3 text-light border border-light rounded " style={{backgroundColor:"rgba(255, 255, 255, 0.32)"}}>
+        <div className="pt-3 text-light border border-light rounded overflow-auto" style={{backgroundColor:"rgba(255, 255, 255, 0.32)"}}>
           <Table striped bordered hover variant="dark">
           {results? ( 
             Object.keys(results).map((key,value)=>{

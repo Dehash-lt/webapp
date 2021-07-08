@@ -6,6 +6,7 @@ This app was developed using React. To learn React, check out the [React documen
 
 In the project directory, you run:
 
+### `yarn install`
 ### `yarn start`
 
 Runs the app in the development mode.\
