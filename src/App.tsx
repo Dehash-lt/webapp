@@ -71,7 +71,7 @@ function App() {
                   </Form.Label>
                   <Form.Control type="hash" placeholder="Email, Hash or Email:Hash" />
                   <Form.Text className="text-muted">
-                    We may collect your data.
+                    We collect your submited data (IP, User Agent, Query).
                   </Form.Text>
                 </Col>
                 <SupportedTypesPopover/>
@@ -189,8 +189,8 @@ class SupportedTypesPopover extends Component <any, any>{
                   <tr className=""><td>SHA256</td><td>1.2B</td><td>64 symbol hex</td></tr>
                   <tr className=""><td>SHA384</td><td>1.2B</td><td>96 symbol hex</td></tr>
                   <tr className=""><td>SHA512</td><td>1.2B</td><td>128 symbol hex</td></tr>
-                  <tr className=""><td>BCRYPT</td><td>33M</td><td>Ex: $2a$12$...3PG8cvRWd6wZxo2uvzeLIu3NscRMsCe3i7xl1HgnxwxIqe2./a</td></tr>
-                  <tr className=""><td>VBULLETIN</td><td>45M</td><td>Ex: 01707f8ad07045fa34da944f4b4b11e1:560826 OR<br/>01707f8ad07045fa34da944f4b4b11e1</td></tr>
+                  <tr className=""><td>BCRYPT</td><td>33M</td><td>E.g: $2a$12$...3PG8cvRWd6wZxo2uvzeLIu3NscRMsCe3i7xl1HgnxwxIqe2./a</td></tr>
+                  <tr className=""><td>VBULLETIN</td><td>45M</td><td>E.g.: 01707f8ad07045fa34da944f4b4b11e1:560826 OR<br/>01707f8ad07045fa34da944f4b4b11e1</td></tr>
                   <tr className=""><td>         </td><td>    </td><td> </td></tr> 
                   <tr className=""><td>         </td><td>    </td><td> </td></tr>              
               </tbody>
@@ -200,8 +200,8 @@ class SupportedTypesPopover extends Component <any, any>{
                 </tr>
               </thead>
               <tbody>
-                  <tr className=""><td>EMAIL</td><td>3.2B</td><td>Email:Password pair lookup.<br/>Ex: example@example.com</td></tr>
-                  <tr className=""><td>EMAIL:BCRYPT</td><td>3.2B</td><td>Password Reusal Attack.<br/>Ex: example@example.com:$2a$12$...Z4.I.M.fpaViXoXE3q.F20CCG62mkviJPPeXu1mMgXxbIIGcne</td></tr>
+                  <tr className=""><td>EMAIL</td><td>3.2B</td><td>Email:Password pair lookup.<br/>E.g: example@example.com</td></tr>
+                  <tr className=""><td>EMAIL:BCRYPT</td><td>3.2B</td><td>Password Reusal Attack.<br/>E.g: example@example.com:$2a$12$...Z4.I.M.fpaViXoXE3q.F20CCG62mkviJPPeXu1mMgXxbIIGcne</td></tr>
               </tbody>
             </Table>
           </div>
@@ -296,10 +296,10 @@ render(){
   return(
     <Container >
       <h1>Data Sources</h1>
-      <p>Our data have been collected over many years from a variety of sources</p>
+      <p>We are using pubicly available data from data leaks like Collection #1-5 and wordlists like Crackstation.</p>
       <Row className="mt-5">
         <Col>
-          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data from our reaserch')}>
+          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data submited by our users e.g. hashes')}>
             <div className="icon icon-bubble bg-dark" data-aos={"zoom-in-right"}>
               <i className="fas fa-book text-light"></i>
             </div>
@@ -307,7 +307,7 @@ render(){
           <p>Research</p>
         </Col>
         <Col>
-          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data Leaks and breaches published on internet')}>
+          <OverlayTrigger placement="auto" delay={{ show: 200, hide: 400 }} overlay={renderTooltip('Data Leaks and breaches publicly available on the internet')}>
             <div className="icon icon-bubble bg-dark" data-aos="zoom-in"><i className="fas fa-database text-light"></i></div>
           </OverlayTrigger>
           <p>Data Leaks</p>
