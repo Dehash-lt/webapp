@@ -40,6 +40,58 @@ function App() {
     var _a = react_1.useState(false), isLoading = _a[0], setLoading = _a[1];
     var _b = react_1.useState(JSON.parse('{}')), results = _b[0], setResults = _b[1];
     var _c = react_1.useState(0), count = _c[0], setCount = _c[1];
+    var _d = react_1.useState({ text: "", show: false }), toastState = _d[0], setToastState = _d[1];
+    var _e = react_1.useState('BSC'), dropValue = _e[0], setDropValue = _e[1];
+    var _f = react_1.useState(''), fileContent = _f[0], setFileContent = _f[1];
+    var fileReader;
+    function handleUpload(event) {
+        var file = event.target.files[0];
+        fileReader = new FileReader();
+        fileReader.readAsText(file);
+        fileReader.onloadend = function () {
+            var _a;
+            var content = (_a = (fileReader.result)) === null || _a === void 0 ? void 0 : _a.toString();
+            if (content != null) {
+                setFileContent(content);
+            }
+        };
+    }
+    function postData(data, callback) {
+        axios_1["default"]({
+            method: 'post',
+            url: "https://api.dehash.lt/api.php?json=1",
+            headers: { 'Content-Type': 'text/plain' },
+            data: data
+        })
+            .then(function (response) {
+            setResults(response.data);
+            callback();
+        }, function (error) {
+            setToastState({ text: "Error occured while parsing response", show: true });
+            callback();
+        });
+    }
+    function getRequest(target) {
+        axios_1["default"].get('https://api.dehash.lt/api.php?json=1&search=' + target.value)
+            .then(function (result) {
+            if (result.data === "Error") {
+                setResults(JSON.parse('{"https:\/\/dehash.lt Error": {"results": ["Unsupported request format"]}}'));
+            }
+            else {
+                setResults(result.data);
+                setCount(count + 1);
+            }
+        })
+            .then(function () { return setLoading(false); })["catch"](function (err) {
+            setLoading(false);
+            if (err.status == 400 || err.status == 404) {
+                setToastState({ text: "Unsupported request format", show: true });
+            }
+            else {
+                setToastState({ text: "Unsupported request format", show: true });
+            }
+        });
+    }
     return (react_1["default"].createElement("div", { className: "App bg-light" },
         isLoading === true ?
             react_1["default"].createElement(LoadingBall_1.LoadingAnimation, { repeat: '3', animationEnd: function () {
@@ -61,26 +113,56 @@ function App() {
                             setLoading(true);
                             event.preventDefault();
                             event.stopPropagation();
-                            axios_1["default"].get('https://api.dehash.lt/api.php?json=1&search=' + event.target[0].value)
-                                .then(function (result) {
-                                console.log(result);
-                                return (result);
-                            })
-                                .then(function (result) {
-                                if (result.data === "Error") {
-                                    setResults(JSON.parse('{"Error":"Unsupported data format"}'));
+                            if (dropValue === 'BSC') {
+                                getRequest(event.target.BSC);
+                            }
+                            else if (dropValue === 'ADV') {
+                                try {
+                                    postData(event.target.ADV.value, function (results) {
+                                        setLoading(false);
+                                    });
                                 }
-                                else {
-                                    setResults(result.data);
-                                    setCount(count + 1);
+                                catch (_a) {
+                                    setToastState({ text: "Error occured while parsing response", show: true });
+                                    setLoading(false);
                                 }
-                            })
-                                .then(function () { return setLoading(false); });
+                            }
+                            if (dropValue === 'FUP') {
+                                try {
+                                    if (fileContent) {
+                                        postData(fileContent, function (results) {
+                                            setLoading(false);
+                                        });
+                                    }
+                                }
+                                catch (_b) {
+                                    setToastState({ text: "Error occured while parsing response", show: true });
+                                    setLoading(false);
+                                }
+                            }
                         } },
                         react_1["default"].createElement(react_bootstrap_1.Form.Row, { className: "d-flex" },
-                            react_1["default"].createElement(react_bootstrap_1.Col, { xs: "auto", className: "flex-fill" },
-                                react_1["default"].createElement(react_bootstrap_1.Form.Label, null, "Hash"),
-                                react_1["default"].createElement(react_bootstrap_1.Form.Control, { type: "hash", placeholder: "Email, Hash or Email:Hash" }),
+                            react_1["default"].createElement(react_bootstrap_1.Col, { xs: "auto", className: "flex-fill mt-3" },
+                                react_1["default"].createElement(react_bootstrap_1.Toast, { onClose: function () { setToastState({ text: "", show: false }); }, show: toastState.show, delay: 3000, autohide: true },
+                                    react_1["default"].createElement(CustomToast, { text: toastState.text })),
+                                react_1["default"].createElement(react_bootstrap_1.InputGroup, null,
+                                    react_1["default"].createElement(react_bootstrap_1.DropdownButton, { variant: "outline-secondary", title: dropValue, id: "input-group-dropdown-1", onSelect: function (e) {
+                                            console.log(e);
+                                            setDropValue(e);
+                                        } },
+                                        react_1["default"].createElement(react_bootstrap_1.Dropdown.Item, { eventKey: "BSC" }, "Basic"),
+                                        react_1["default"].createElement(react_bootstrap_1.Dropdown.Item, { eventKey: "ADV" }, "Advanced"),
+                                        react_1["default"].createElement(react_bootstrap_1.Dropdown.Divider, null),
+                                        react_1["default"].createElement(react_bootstrap_1.Dropdown.Item, { eventKey: "FUP" }, "File upload")),
+                                    dropValue === 'ADV' ?
+                                        react_1["default"].createElement(react_1["default"].Fragment, null,
+                                            react_1["default"].createElement(react_bootstrap_1.Form.Control, { className: "mx-1 rounded", as: "textarea", rows: 3, name: 'ADV', placeholder: "Email, Hash or Email:Hash" }))
+                                        : dropValue === 'FUP' ?
+                                            react_1["default"].createElement(react_1["default"].Fragment, null,
+                                                react_1["default"].createElement("input", { className: "form-control rounded mx-1", name: 'FUP', type: "file", id: "formFileDisabled", onChange: handleUpload }))
+                                            :
+                                                react_1["default"].createElement(react_1["default"].Fragment, null,
+                                                    react_1["default"].createElement(react_bootstrap_1.Form.Control, { className: "mx-1 rounded", name: 'BSC', placeholder: "Email, Hash or Email:Hash" }))),
                                 react_1["default"].createElement(react_bootstrap_1.Form.Text, { className: "text-muted" }, "We collect your submited data (IP, User Agent, Query).")),
                             react_1["default"].createElement(SupportedTypesPopover, null)),
                         react_1["default"].createElement(Button_1["default"], { className: "mt-2", variant: "primary", type: "submit" }, "Search")))),
@@ -119,7 +201,9 @@ function MenuBar() {
                         react_1["default"].createElement(react_bootstrap_1.Nav.Link, null,
                             react_1["default"].createElement(react_scroll_1.Link, { to: "section1", href: "#about" }, "About Us")),
                         react_1["default"].createElement(react_bootstrap_1.Nav.Link, null,
-                            react_1["default"].createElement(react_scroll_1.Link, { to: "section2", href: "#data" }, "Data Sources"))))))));
+                            react_1["default"].createElement(react_scroll_1.Link, { to: "section2", href: "#data" }, "Data Sources")),
+                        react_1["default"].createElement(react_bootstrap_1.Nav.Link, null,
+                            react_1["default"].createElement("a", { onClick: function () { return window.open("https://github.com/Dehash-lt/api#dehashlt-api", "_blank"); } }, "API"))))))));
 }
 var wordsArray = ['Hash', 'Password', 'Future'];
 var ChangingText = /** @class */ (function (_super) {
@@ -153,11 +237,11 @@ var SupportedTypesPopover = /** @class */ (function (_super) {
     }
     SupportedTypesPopover.prototype.render = function () {
         var _this = this;
-        return (react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { placement: "auto", show: this.state.isPopoverVisible, delay: { show: 200, hide: 400 }, overlay: react_1["default"].createElement(react_bootstrap_1.Popover, { className: "overflow-hidden", id: "Supported_Types_Popover", style: { maxWidth: '50rem' }, onMouseLeave: function () {
+        return (react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { trigger: ['hover', 'focus'], placement: "auto", show: this.state.isPopoverVisible, delay: { show: 200, hide: 400 }, overlay: react_1["default"].createElement(react_bootstrap_1.Popover, { className: "overflow-hidden", id: "Supported_Types_Popover", style: { maxWidth: '50rem' }, onMouseLeave: function () {
                     _this.setState({ isPopoverVisible: false });
                 } },
                 react_1["default"].createElement("div", { className: "responsive-popover", style: { overflow: 'scroll' } },
-                    react_1["default"].createElement(react_bootstrap_1.Table, { striped: true, bordered: true, hover: true, variant: "dark", className: "mb-0", style: { maxWidth: '10rem' } },
+                    react_1["default"].createElement(react_bootstrap_1.Table, { striped: true, bordered: true, hover: true, variant: "dark", id: "popover", className: "mb-0", style: { maxWidth: '10rem' } },
                         react_1["default"].createElement("thead", null,
                             react_1["default"].createElement("tr", null,
                                 react_1["default"].createElement("th", null, "Supported Types"),
@@ -187,12 +271,12 @@ var SupportedTypesPopover = /** @class */ (function (_super) {
                             react_1["default"].createElement("tr", { className: "" },
                                 react_1["default"].createElement("td", null, "BCRYPT"),
                                 react_1["default"].createElement("td", null, "33M"),
-                                react_1["default"].createElement("td", null, "Ex: $2a$12$...3PG8cvRWd6wZxo2uvzeLIu3NscRMsCe3i7xl1HgnxwxIqe2./a")),
+                                react_1["default"].createElement("td", null, "E.g: $2a$12$...3PG8cvRWd6wZxo2uvzeLIu3NscRMsCe3i7xl1HgnxwxIqe2./a")),
                             react_1["default"].createElement("tr", { className: "" },
                                 react_1["default"].createElement("td", null, "VBULLETIN"),
                                 react_1["default"].createElement("td", null, "45M"),
                                 react_1["default"].createElement("td", null,
-                                    "Ex: 01707f8ad07045fa34da944f4b4b11e1:560826 OR",
+                                    "E.g.: 01707f8ad07045fa34da944f4b4b11e1:560826 OR",
                                     react_1["default"].createElement("br", null),
                                     "01707f8ad07045fa34da944f4b4b11e1")),
                             react_1["default"].createElement("tr", { className: "" },
@@ -215,16 +299,21 @@ var SupportedTypesPopover = /** @class */ (function (_super) {
                                 react_1["default"].createElement("td", null,
                                     "Email:Password pair lookup.",
                                     react_1["default"].createElement("br", null),
-                                    "Ex: example@example.com")),
+                                    "E.g: example@example.com")),
                             react_1["default"].createElement("tr", { className: "" },
                                 react_1["default"].createElement("td", null, "EMAIL:BCRYPT"),
                                 react_1["default"].createElement("td", null, "3.2B"),
                                 react_1["default"].createElement("td", null,
                                     "Password Reusal Attack.",
                                     react_1["default"].createElement("br", null),
-                                    "Ex: example@example.com:$2a$12$...Z4.I.M.fpaViXoXE3q.F20CCG62mkviJPPeXu1mMgXxbIIGcne")))))) },
-            react_1["default"].createElement("i", { className: "fas fa-lg fa-info-circle text-muted align-self-center mt-2 mx-1", onMouseEnter: function () {
+                                    "E.g: example@example.com:$2a$12$...Z4.I.M.fpaViXoXE3q.F20CCG62mkviJPPeXu1mMgXxbIIGcne")))))) },
+            react_1["default"].createElement("i", { className: "fas fa-lg fa-info-circle text-muted align-self-center mx-1", onMouseEnter: function () {
                     _this.setState({ isPopoverVisible: true });
+                }, onMouseLeave: function () {
+                    var _a;
+                    if (!((_a = document.getElementById("popover")) === null || _a === void 0 ? void 0 : _a.matches(':hover'))) {
+                        _this.setState({ isPopoverVisible: false });
+                    }
                 }, onClick: function () {
                     if (_this.state.isPopoverVisible == true) {
                         _this.setState({ isPopoverVisible: false });
@@ -288,20 +377,20 @@ var DataSources = /** @class */ (function (_super) {
     DataSources.prototype.render = function () {
         return (react_1["default"].createElement(react_bootstrap_1.Container, null,
             react_1["default"].createElement("h1", null, "Data Sources"),
-            react_1["default"].createElement("p", null, "We are using pubicly available data from data leaks like Collection #1-5 and wordlists like Crackstation."),
+            react_1["default"].createElement("p", null, "We are using publicly available data from data leaks like Collection #1-5 and wordlists like Crackstation."),
             react_1["default"].createElement(react_bootstrap_1.Row, { className: "mt-5" },
                 react_1["default"].createElement(react_bootstrap_1.Col, null,
-                    react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { placement: "auto", delay: { show: 200, hide: 400 }, overlay: renderTooltip('Data from our reaserch') },
+                    react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { placement: "auto", delay: { show: 200, hide: 400 }, overlay: renderTooltip('Data submited by our users e.g. hashes') },
                         react_1["default"].createElement("div", { className: "icon icon-bubble bg-dark", "data-aos": "zoom-in-right" },
                             react_1["default"].createElement("i", { className: "fas fa-book text-light" }))),
                     react_1["default"].createElement("p", null, "Research")),
                 react_1["default"].createElement(react_bootstrap_1.Col, null,
-                    react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { placement: "auto", delay: { show: 200, hide: 400 }, overlay: renderTooltip('Data Leaks and breaches published on internet') },
+                    react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { placement: "auto", delay: { show: 200, hide: 400 }, overlay: renderTooltip('Data Leaks and breaches publicly available on the internet') },
                         react_1["default"].createElement("div", { className: "icon icon-bubble bg-dark", "data-aos": "zoom-in" },
                             react_1["default"].createElement("i", { className: "fas fa-database text-light" }))),
                     react_1["default"].createElement("p", null, "Data Leaks")),
                 react_1["default"].createElement(react_bootstrap_1.Col, null,
-                    react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { placement: "auto", delay: { show: 200, hide: 400 }, overlay: renderTooltip('Publicly available information hashtables and other information from different sources like Crackstation') },
+                    react_1["default"].createElement(react_bootstrap_1.OverlayTrigger, { placement: "auto", delay: { show: 200, hide: 400 }, overlay: renderTooltip('Publicly available hashtables and other information from different sources like Crackstation') },
                         react_1["default"].createElement("div", { className: "icon icon-bubble bg-dark", "data-aos": "zoom-in-left" },
                             react_1["default"].createElement("i", { className: "fas fa-server text-light" }))),
                     react_1["default"].createElement("p", null, "Public information")))));
@@ -325,11 +414,18 @@ var Footer = /** @class */ (function (_super) {
     };
     return Footer;
 }(react_1.Component));
+var CustomToast = function (props) { return (react_1["default"].createElement(react_1["default"].Fragment, null,
+    react_1["default"].createElement(react_bootstrap_1.Toast.Header, null,
+        react_1["default"].createElement("div", { className: "toastHead" },
+            react_1["default"].createElement("img", { src: "/img/lock.png", className: "rounded mx-2", alt: "" }),
+            react_1["default"].createElement("strong", { className: "mr-auto" }, "Dehas.lt"),
+            react_1["default"].createElement("small", { className: " right mx-3" }, "Now"))),
+    react_1["default"].createElement(react_bootstrap_1.Toast.Body, null, props.text))); };
 var renderTooltip = function (props) { return (react_1["default"].createElement(react_bootstrap_1.Tooltip, __assign({ id: "button-tooltip" }, props), props)); };
 var displayResults = function (results, count) {
     if (Object.keys(results).length !== 0) {
         try {
-            return (react_1["default"].createElement("div", { className: "pt-3 text-light border border-light rounded ", style: { backgroundColor: "rgba(255, 255, 255, 0.32)" } },
+            return (react_1["default"].createElement("div", { className: "pt-3 text-light border border-light rounded overflow-auto", style: { backgroundColor: "rgba(255, 255, 255, 0.32)" } },
                 react_1["default"].createElement(react_bootstrap_1.Table, { striped: true, bordered: true, hover: true, variant: "dark" }, results ? (Object.keys(results).map(function (key, value) {
                     return (react_1["default"].createElement(react_1["default"].Fragment, null,
                         react_1["default"].createElement("thead", null,
@@ -337,7 +433,6 @@ var displayResults = function (results, count) {
                                 react_1["default"].createElement("th", null, key),
                                 react_1["default"].createElement("th", null, "Results"))),
                         react_1["default"].createElement("tbody", null, results[key]["results"].map(function (value1) {
-                            console.log(value1);
                             return (react_1["default"].createElement("tr", { className: "" },
                                 react_1["default"].createElement("td", null),
                                 react_1["default"].createElement("td", null, value1)));

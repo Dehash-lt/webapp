@@ -169,6 +169,11 @@ input#formHash{
   text-align:left;
 }
 
+.custom-file{
+  width: min-content;
+
+}
+
 
 @media only screen and (max-width: 282px) {
   .responsive-popover{

@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Button from 'react-bootstrap/Button';
-import { Col, Container, Form, Nav, Navbar,Toast, OverlayTrigger, Popover, Row, Table, Tooltip } from 'react-bootstrap';
+import { Col, Container, Form, Nav, Navbar,Toast, OverlayTrigger, Popover, Row, Table, Tooltip, InputGroup, Dropdown, DropdownButton } from 'react-bootstrap';
 import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
 import NavbarCollapse from 'react-bootstrap/esm/NavbarCollapse';
 import { Link } from "react-scroll";
@@ -18,12 +18,70 @@ function App() {
   const [results, setResults] = useState(JSON.parse('{}'));
   const [count, setCount] = useState(0);
   const [toastState, setToastState] = useState({text:"",show:false,})
+  const [dropValue,setDropValue]=useState('BSC');
+  const [fileContent,setFileContent]=useState('');
 
+
+
+  let fileReader:FileReader;
+
+  function handleUpload(event:any) {
+    let file = event.target.files[0];
+    fileReader = new FileReader();
+    fileReader.readAsText(file);
+    fileReader.onloadend = ()=>{
+      const content = (fileReader.result)?.toString();
+      if(content != null){
+        setFileContent(content);
+      } 
+    };
+  }
+
+  function postData(data:String,callback:any){
+    axios({
+      method: 'post',
+      url: "https://api.dehash.lt/api.php?json=1",
+      headers: {'Content-Type' : 'text/plain'}, 
+      data: data,
+    })
+    .then((response) => {
+      setResults(response.data);
+      callback();
+    }, (error) => {
+      setToastState({text:"Error occured while parsing response",show:true,});
+      callback();
+    })
+
+  }
+
+  function getRequest(target:any){
+    axios.get('https://api.dehash.lt/api.php?json=1&search='+target.value)
+    .then(result =>{
+      if(result.data==="Error"){
+        setResults(JSON.parse('{"https:\/\/dehash.lt Error": {"results": ["Unsupported request format"]}}'));
+      }
+      else{
+        setResults(result.data);
+        setCount(count + 1);
+      }
+    })
+    .then(()=>setLoading(false))
+    .catch((err)=>{
+      setLoading(false);
+      if(err.status == 400 || err.status == 404){
+        setToastState({text:"Unsupported request format",show:true,});
+      }
+      else{
+        setToastState({text:"Unsupported request format",show:true,});
+      }
+
+    })
+  }
 
   return (
     <div className="App bg-light">
       { isLoading === true ?
-          <LoadingAnimation repeat={'3'} animationEnd={()=>{
+          <LoadingAnimation repeat={'infinite'} animationEnd={()=>{
             setLoading(false);
           }} />
         :
@@ -48,48 +106,87 @@ function App() {
                 setLoading(true);
                 event.preventDefault();
                 event.stopPropagation();
-                axios.get('https://api.dehash.lt/api.php?json=1&search='+event.target[0].value)
-                  .then(result =>{
-                    if(result.data==="Error"){
-                      setResults(JSON.parse('{"https:\/\/dehash.lt Error": {"results": ["Unsupported request format"]}}'));
-                    }
-                    else{
-                      setResults(result.data);
-                      setCount(count + 1);
-                    }
-                  })
-                  .then(()=>setLoading(false))
-                  .catch((err)=>{
+                if(dropValue === 'BSC'){
+                  getRequest(event.target.BSC);
+                }
+                else if(dropValue === 'ADV') {
+                  try{
+                  postData(event.target.ADV.value,(results:any)=>{
                     setLoading(false);
-                    if(err.status == 400 || err.status == 404){
-                      setToastState({text:"Unsupported request format",show:true,});
+                  });
+                  }catch{
+                    setToastState({text:"Error occured while parsing response",show:true,});
+                    setLoading(false);
+                  }
+                  
+                }
+                if(dropValue === 'FUP') {
+                  try{
+                    if(fileContent){
+                      postData(fileContent,(results:any)=>{
+                        setLoading(false);
+                      });
                     }
-                    else{
-                      setToastState({text:"Unsupported request format",show:true,});
-                    }
-
-                  })
+                  }catch{
+                    setToastState({text:"Error occured while parsing response",show:true,});
+                    setLoading(false);
+                  }
+                }
               }
             }
             >
               <Form.Row className="d-flex">
-                <Col xs="auto" className="flex-fill">
-                  <Form.Label>
-                    Hash
-                  </Form.Label>
+                <Col xs="auto" className="flex-fill mt-3">
                   <Toast onClose={() =>{setToastState({text:"",show:false,});} } show={toastState.show} delay={3000} autohide>
                     <CustomToast text={toastState.text}></CustomToast>
                   </Toast>
-                  <Form.Control type="hash" placeholder="Email, Hash or Email:Hash" />
-                  <Form.Text className="text-muted">
-                    We collect your submited data (IP, User Agent, Query).
-                  </Form.Text>
+                  <InputGroup >
+                  <DropdownButton
+                    variant="outline-secondary"
+                    title={dropValue}
+                    id="input-group-dropdown-1"
+                    onSelect={(e:any)=>{
+                      console.log(e);
+                      setDropValue(e)
+                    }}
+                  >
+                    <Dropdown.Item eventKey="BSC">Basic</Dropdown.Item>
+                    <Dropdown.Item eventKey="ADV">Advanced</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item eventKey="FUP">File upload</Dropdown.Item>
+                  </DropdownButton>
+                  { dropValue === 'ADV' ?
+                    <>
+                      <Form.Control className="mx-1 rounded" as="textarea" rows={3} name={'ADV'} placeholder="Email, Hash or Email:Hash" />
+                    </>
+                  :dropValue === 'FUP' ?
+                    <>
+                      <input className="form-control rounded mx-1" 
+                        name={'FUP'} 
+                        type="file" 
+                        id="formFileDisabled" 
+                        onChange={handleUpload}
+                      />
+                    </>
+                  :
+                  <>
+                    <Form.Control className="mx-1 rounded" name={'BSC'} placeholder="Email, Hash or Email:Hash" />
+                  </>
+                }
+                  
+                </InputGroup>
+                <Form.Text className="text-muted">
+                We collect your submited data (IP, User Agent, Query).
+              </Form.Text>
+
+
+
                 </Col>
                 <SupportedTypesPopover/>
-              </Form.Row>
-              <Button className="mt-2" variant="primary" type="submit">
-                Search
-              </Button>
+              </Form.Row> 
+                <Button className="mt-2" variant="primary" type="submit">
+                  Search
+                </Button>  
             </Form>
           </div>
         </Row>
@@ -219,7 +316,7 @@ class SupportedTypesPopover extends Component <any, any>{
           </div>
         </Popover>
         }>
-        <i className="fas fa-lg fa-info-circle text-muted align-self-center mt-2 mx-1" 
+        <i className="fas fa-lg fa-info-circle text-muted align-self-center mx-1" 
         onMouseEnter={() =>{
           this.setState({isPopoverVisible: true})
         }}
@@ -399,7 +496,6 @@ const displayResults = (results:any, count:any)=>{
                   </thead>
                   <tbody>
                     {results[key]["results"].map((value1:any)=>{
-                      console.log(value1)
                       return(<tr className=""><td></td><td>{value1}</td></tr>)
                     })}
                   </tbody>
@@ -431,5 +527,6 @@ const displayResults = (results:any, count:any)=>{
     }
   }
 }
+
 
 export default App;
