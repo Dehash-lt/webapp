@@ -130,6 +130,18 @@ i.fab:hover{
   display: none!important;
 }
 
+.text-left{
+  text-align: left;
+}
+
+.mb-3{
+  margin-bottom: 2rem;
+}
+.accordion-item.card button:hover{
+  background: rgba(211, 211, 211, 0.719);
+  border-style: yellow 2px solid!important;
+}
+
 input#formHash{
   border-radius: 0.8rem!important;
 }
