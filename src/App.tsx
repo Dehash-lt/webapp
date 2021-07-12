@@ -594,7 +594,7 @@ class PrivacyPolicy extends Component <any,any>{
                                                 to provide and improve the Service. By using the Service, You signify that You have read,
                                                  understood, and agreed to the collection and use of information in accordance with
                                                   this Privacy Policy.
-                                                 This Privacy Policy applies to our website, httsp://dehash.lt/ and its associated subdomains.
+                                                 This Privacy Policy applies to our website, httsp://dehash.lt and its associated subdomains.
                                             </p>
                                             <small>
                                               This Privacy Policy has been created with the help of the Privacy Policy Generator.</small>
@@ -611,7 +611,7 @@ class PrivacyPolicy extends Component <any,any>{
                                         <hr/>
                                       <h5>Personal Data</h5>
                                       <p>
-                                        While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You.
+                                        While using Our Service, You can provide Us with certain personally identifiable information that can be used to contact or identify You.
                                         Personally identifiable information may include, but is not limited to:
                                       </p>
                                       <ul>
@@ -628,7 +628,7 @@ class PrivacyPolicy extends Component <any,any>{
                                           <li>Browser version</li>
                                           <li>Visited pages (pages of our service) </li>
                                           <li>The time and date of Your visit</li>
-                                          <li>unique device identifiers and other diagnostic data</li>
+                                          <li>Unique device identifiers and other diagnostic data</li>
                                         </ul>
                                       </p>
                                       <p>When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to.:
@@ -670,11 +670,11 @@ class PrivacyPolicy extends Component <any,any>{
                                       </p>
                                       <ul>
                                         <li><strong>With Service Providers.</strong> We may share Your personal information with Service Providers to monitor and analyze the use of our Service, to contact You.</li>
-                                        <li>For business transfers: We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.</li>
-                                        <li>With Affiliates: We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.</li>
-                                        <li>With business partners: We may share Your information with Our business partners to offer You certain products, services or promotions.</li>
-                                        <li>With other users: when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.</li>
-                                        <li>With Your consent: We may disclose Your personal information for any other purpose with Your consent.</li>
+                                        <li><strong>For business transfers:</strong> We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.</li>
+                                        <li><strong>With Affiliates:</strong> We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.</li>
+                                        <li><strong>With business partners:</strong> We may share Your information with Our business partners to offer You certain products, services or promotions.</li>
+                                        <li><strong>With other users:</strong> when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.</li>
+                                        <li><strong>With Your consent:</strong> We may disclose Your personal information for any other purpose with Your consent.</li>
                                       </ul>
                                       <h5>Could my information be transferred to other countries?</h5>
                                       <p>We are incorporated in Lithuania. Information collected via our website, through direct interactions with you, or from use of our help services may be transferred from time to time to our offices or personnel, or to third parties, located throughout the world, and may be viewed and hosted anywhere in the world, including countries that may not have laws of general applicability regulating the use and transfer of such data. To the fullest extent allowed by applicable law, by using any of the above, you voluntarily consent to the trans- border transfer and hosting of such information.</p>
