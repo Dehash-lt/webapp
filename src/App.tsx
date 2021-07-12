@@ -259,7 +259,7 @@ const MenuBar=({callback}:any)=>{
     <>
       <Navbar fixed="top" className="justify-content-end" bg={navColor} variant="light"expand="lg">
         <Container>
-          <Navbar.Brand href="#home">Dehash.lt</Navbar.Brand>
+          <Navbar.Brand onClick={()=>callback(0)} href="#home">Dehash.lt</Navbar.Brand>
           <NavbarToggle aria-controls="responsive-navbar-nav"/>
           <NavbarCollapse id="responsive-navbar-nav" className="justify-content-end">
             <Nav className="mr-auto justify-content-end" >
