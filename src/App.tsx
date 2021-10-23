@@ -29,7 +29,7 @@ function App() {
     { page === 0 ?
         <MainPage />
       : page === 1 ?
-          <PrivacyPolicy/>
+        <PrivacyPolicy/>
       : <></>
     }
     <Footer/>
@@ -66,12 +66,12 @@ class MainPage extends Component <any,any>{
     };
   }
 
-  postData(data:String,callback:any){
+  postData(data:String, callback:any){
     axios({
       method: 'post',
       url: "https://api.dehash.lt/api.php?json=1",
       headers: {'Content-Type' : 'text/plain'}, 
-      data: data,
+      data: data
     })
     .then((response) => {
       this.setState({results:response.data});
@@ -177,52 +177,52 @@ class MainPage extends Component <any,any>{
                       <CustomToast text={this.state.toastState.text}></CustomToast>
                     </Toast>
                     <InputGroup >
-                    <DropdownButton
-                      variant="outline-secondary"
-                      title={this.state.dropValue}
-                      id="input-group-dropdown-1"
-                      onSelect={(e:any)=>{
-                        console.log(e);
-                        this.setState({dropValue:(e)});
-                      }}
-                    >
-                      <Dropdown.Item eventKey="BSC">Basic</Dropdown.Item>
-                      <Dropdown.Item eventKey="ADV">Advanced</Dropdown.Item>
-                      <Dropdown.Divider />
-                      <Dropdown.Item eventKey="FUP">File upload</Dropdown.Item>
-                    </DropdownButton>
-                    { this.state.dropValue === 'ADV' ?
-                      <>
-                        <Form.Control className="mx-1 rounded" as="textarea" rows={3} name={'ADV'} placeholder="Email, Hash or Email:Hash" />
-                      </>
-                    :this.state.dropValue === 'FUP' ?
-                      <>
-                        <input className="form-control rounded mx-1" 
-                          name={'FUP'} 
-                          type="file" 
-                          id="formFileDisabled" 
-                          onChange={this.handleUpload}
-                        />
-                      </>
-                    :
-                    <>
-                      <Form.Control className="mx-1 rounded" name={'BSC'} placeholder="Email, Hash or Email:Hash" />
-                    </>
-                  }
-                    
-                  </InputGroup>
-                  <Form.Text className="text-muted">
-                  We collect your submited data (IP, User Agent, Query).
-                </Form.Text>
+                      <DropdownButton
+                        variant="outline-secondary"
+                        title={this.state.dropValue}
+                        id="input-group-dropdown-1"
+                        onSelect={(e:any)=>{
+                          console.log(e);
+                          this.setState({dropValue:(e)});
+                        }}
+                      >
+                        <Dropdown.Item eventKey="BSC">Basic</Dropdown.Item>
+                        <Dropdown.Item eventKey="ADV">Advanced</Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item eventKey="FUP">File upload</Dropdown.Item>
+                      </DropdownButton>
+                      { this.state.dropValue === 'ADV' ?
+                        <>
+                          <Form.Control className="mx-1 rounded" as="textarea" rows={3} name={'ADV'} placeholder="Email, Hash or Email:Hash" />
+                        </>
+                      :this.state.dropValue === 'FUP' ?
+                        <>
+                          <input className="form-control rounded mx-1" 
+                            name={'FUP'} 
+                            type="file" 
+                            id="formFileDisabled" 
+                            onChange={this.handleUpload}
+                          />
+                        </>
+                      :
+                        <>
+                          <Form.Control className="mx-1 rounded" name={'BSC'} placeholder="Email, Hash or Email:Hash" />
+                        </>
+                      }
+                      
+                    </InputGroup>
+                    <Form.Text className="text-muted">
+                      We collect your submited data (IP, User Agent, Query).
+                    </Form.Text>
 
 
 
                   </Col>
-                  <SupportedTypesPopover/>
+                <SupportedTypesPopover/>
                 </Form.Row> 
-                  <Button className="mt-2" variant="primary" type="submit">
-                    Search
-                  </Button>  
+                <Button className="mt-2" variant="primary" type="submit">
+                  Search
+                </Button>  
               </Form>
             </div>
           </Row>
@@ -331,8 +331,8 @@ class SupportedTypesPopover extends Component <any, any>{
                 </tr>
               </thead>
               <tbody>
-                  <tr className=""><td>MD5</td><td>1.7B + 1 external API</td><td>32 symbol hex</td></tr>
-                  <tr className=""><td>SHA1</td><td>1.7B</td><td>40 symbol hex</td></tr>
+                  <tr className=""><td>MD5</td><td>8.5B + 1 external API</td><td>32 symbol hex</td></tr>
+                  <tr className=""><td>SHA1</td><td>8.5B</td><td>40 symbol hex</td></tr>
                   <tr className=""><td>SHA256</td><td>1.2B</td><td>64 symbol hex</td></tr>
                   <tr className=""><td>SHA384</td><td>1.2B</td><td>96 symbol hex</td></tr>
                   <tr className=""><td>SHA512</td><td>1.2B</td><td>128 symbol hex</td></tr>
@@ -505,7 +505,7 @@ const CustomToast = (props:any)=>(
                 className="rounded mx-2"
                 alt=""
               />
-              <strong className="mr-auto">Dehas.lt</strong>
+              <strong className="mr-auto">Dehash.lt</strong>
               <small className=" right mx-3">Now</small>
             </div>
           </Toast.Header>
@@ -572,173 +572,252 @@ const displayResults = (results:any, count:any)=>{
 
 class PrivacyPolicy extends Component <any,any>{
 
+  constructor(props:any) {
+    super(props);
+    this.state = {
+      toastState:{text:"",show:false}
+    };
+  }
+
+  handleSubmit(event:any) {
+    const target = event.target;
+    
+    const email = target.removeRequestEmail.value;
+    const fullName = target.removeRequestFullName.value;
+    const reason = target.removeRequestReason.value;
+    const additional = target.removeRequestAdditional.value;
+
+    const data = {Email: email, FullName: fullName, Reason: reason, Additional: additional}
+
+
+    axios({
+      method: 'post',
+      url: "https://api.dehash.lt/removal.php",
+      headers: {'Content-Type' : 'application/json'}, 
+      data: data
+    })
+    .then((response) => {
+      this.setState({results:response.data});
+    }, (error) => {
+      this.setState({toastState: {text:"Error submiting form data.",show:true} });
+    })
+    
+  }
+
   render(){
     return( 
       <Container fluid className="bg-gray mt-5 pt-5">
-        
-                          <div className="container px-5 pb-1">
 
-                              <Accordion className="accordion shadow mb-5">
-                                <div className="accordion-item">
-                                    <div className="d-flex align-items-center text-left px-4 py-5">
-                                        <div className="me-3">
-                                            <h4 className="mb-0">Privacy Policy</h4>
-                                            <p className="card-text text-gray-500">
-                                              Last updated: July 11, 2021<br></br>
-                                            </p>
-                                            <br/>
-                                            <p>
-                                              This Privacy Policy describes Our policies and procedures on the collection,
-                                               use and disclosure of Your information when You use the Service and tells 
-                                               You about Your privacy rights and how the law protects You. We use Your Personal data
-                                                to provide and improve the Service. By using the Service, You signify that You have read,
-                                                 understood, and agreed to the collection and use of information in accordance with
-                                                  this Privacy Policy.
-                                                 This Privacy Policy applies to our website, httsp://dehash.lt and its associated subdomains.
-                                            </p>
-                                            <small>
-                                              This Privacy Policy has been created with the help of the Privacy Policy Generator.</small>
-                                        </div>
-                                    </div>
-                                </div> 
-                                <Card className="accordion-item">
-                                  <Card.Header className="accordion-header mt-0 ">
-                                    <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="0">
-                                      <h5>Collecting Your Personal Data</h5>
-                                    </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey="0">
-                                      <Card.Body className="text-left">
-                                        <hr/>
-                                      <h5>Personal Data</h5>
-                                      <p>
-                                        While using Our Service, You can provide Us with certain personally identifiable information that can be used to contact or identify You.
-                                        Personally identifiable information may include, but is not limited to:
-                                      </p>
-                                      <ul>
-                                        <li>Email address</li>
-                                        <li>Provided Hash</li>
-                                      </ul>
-                                      <hr/>
-                                      <h5>Usage Data</h5>
-                                      <p>
-                                        Usage Data is collected automatically when using the Service. Usage Data may include information such as.:
-                                        <ul>
-                                          <li>Device's Internet Protocol address (e.g. IP address)</li>
-                                          <li>Browser type</li>
-                                          <li>Browser version</li>
-                                          <li>Visited pages (pages of our service) </li>
-                                          <li>The time and date of Your visit</li>
-                                          <li>Unique device identifiers and other diagnostic data</li>
-                                        </ul>
-                                      </p>
-                                      <p>When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to.:
-                                      <ul>
-                                        <li>The type of mobile device</li>
-                                        <li>Mobile device unique ID</li>
-                                        <li>IP address of Your mobile device</li>
-                                        <li>Operating system</li>
-                                        <li>The type of mobile Internet browser</li>
-                                        <li>Unique device identifiers and other diagnostic data</li>
-                                      </ul>
-                                      </p>
-                                      <p>We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.</p>
-                                      <h5>Where and when is information collected from customers and end users?</h5>
-                                      <p>We will collect personal information that you submit to us. We may also receive personal information about you from third parties as described above.</p>
-                                      </Card.Body>
-                                    </Accordion.Collapse>
-                                  </Card.Header>
-                                </Card>
-                                <Card className="accordion-item">
-                                  <Card.Header className="accordion-header mt-0 ">
-                                    <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="1">
-                                      <h5>Use of Your Personal Data</h5>
-                                    </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey="1">
-                                      <Card.Body className="text-left">
-                                        <hr/>
-                                      <p>
-                                        Any of the information we collect from You may be used for the following purposes:
-                                      </p>
-                                      <ul>
-                                        <li><strong>To provide and maintain our Service</strong>, including to monitor the usage of our Service.</li>
-                                        <li><strong>To improve our service</strong> (We continually strive to improve our service)</li>
-                                        <li><strong>To manage Your requests</strong></li>
-                                        <li><strong>For other purposes. </strong>We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.</li>
-                                      </ul>
-                                      <p>
-                                        We may share Your personal information in the following situations:
-                                      </p>
-                                      <ul>
-                                        <li><strong>With Service Providers.</strong> We may share Your personal information with Service Providers to monitor and analyze the use of our Service, to contact You.</li>
-                                        <li><strong>For business transfers:</strong> We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.</li>
-                                        <li><strong>With Affiliates:</strong> We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.</li>
-                                        <li><strong>With business partners:</strong> We may share Your information with Our business partners to offer You certain products, services or promotions.</li>
-                                        <li><strong>With other users:</strong> when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.</li>
-                                        <li><strong>With Your consent:</strong> We may disclose Your personal information for any other purpose with Your consent.</li>
-                                      </ul>
-                                      <h5>Could my information be transferred to other countries?</h5>
-                                      <p>We are incorporated in Lithuania. Information collected via our website, through direct interactions with you, or from use of our help services may be transferred from time to time to our offices or personnel, or to third parties, located throughout the world, and may be viewed and hosted anywhere in the world, including countries that may not have laws of general applicability regulating the use and transfer of such data. To the fullest extent allowed by applicable law, by using any of the above, you voluntarily consent to the trans- border transfer and hosting of such information.</p>
-                                      <h5>Retention of Your Personal Data</h5>
-                                      <p>The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.
+        <div className="container px-5 pb-1">
+          <Accordion className="accordion shadow mb-5">
+            <div className="accordion-item">
+                <div className="d-flex align-items-center text-left px-4 py-5">
+                    <div className="me-3">
+                        <h4 className="mb-0">Privacy Policy</h4>
+                        <p className="card-text text-gray-500">
+                          Last updated: July 11, 2021<br></br>
+                        </p>
+                        <br/>
+                        <p>
+                          This Privacy Policy describes Our policies and procedures on the collection,
+                            use and disclosure of Your information when You use the Service and tells 
+                            You about Your privacy rights and how the law protects You. We use Your Personal data
+                            to provide and improve the Service. By using the Service, You signify that You have read,
+                              understood, and agreed to the collection and use of information in accordance with
+                              this Privacy Policy.
+                              This Privacy Policy applies to our website, httsp://dehash.lt and its associated subdomains.
+                        </p>
+                        <small>
+                          This Privacy Policy has been created with the help of the Privacy Policy Generator.</small>
+                    </div>
+                </div>
+            </div> 
+            <Card className="accordion-item">
+              <Card.Header className="accordion-header mt-0 ">
+                <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="0">
+                  <h5>Collecting Your Personal Data</h5>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body className="text-left">
+                    <hr/>
+                  <h5>Personal Data</h5>
+                  <p>
+                    While using Our Service, You can provide Us with certain personally identifiable information that can be used to contact or identify You.
+                    Personally identifiable information may include, but is not limited to:
+                  </p>
+                  <ul>
+                    <li>Email address</li>
+                    <li>Provided Hash</li>
+                  </ul>
+                  <hr/>
+                  <h5>Usage Data</h5>
+                  <p>
+                    Usage Data is collected automatically when using the Service. Usage Data may include information such as.:
+                    <ul>
+                      <li>Device's Internet Protocol address (e.g. IP address)</li>
+                      <li>Browser type</li>
+                      <li>Browser version</li>
+                      <li>Visited pages (pages of our service) </li>
+                      <li>The time and date of Your visit</li>
+                      <li>Unique device identifiers and other diagnostic data</li>
+                    </ul>
+                  </p>
+                  <p>When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to.:
+                  <ul>
+                    <li>The type of mobile device</li>
+                    <li>Mobile device unique ID</li>
+                    <li>IP address of Your mobile device</li>
+                    <li>Operating system</li>
+                    <li>The type of mobile Internet browser</li>
+                    <li>Unique device identifiers and other diagnostic data</li>
+                  </ul>
+                  </p>
+                  <p>We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.</p>
+                  <h5>Where and when is information collected from customers and end users?</h5>
+                  <p>We will collect personal information that you submit to us. We may also receive personal information about you from third parties as described above.</p>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card.Header>
+            </Card>
+            <Card className="accordion-item">
+              <Card.Header className="accordion-header mt-0 ">
+                <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="1">
+                  <h5>Use of Your Personal Data</h5>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="1">
+                  <Card.Body className="text-left">
+                    <hr/>
+                  <p>
+                    Any of the information we collect from You may be used for the following purposes:
+                  </p>
+                  <ul>
+                    <li><strong>To provide and maintain our Service</strong>, including to monitor the usage of our Service.</li>
+                    <li><strong>To improve our service</strong> (We continually strive to improve our service)</li>
+                    <li><strong>To manage Your requests</strong></li>
+                    <li><strong>For other purposes. </strong>We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.</li>
+                  </ul>
+                  <p>
+                    We may share Your personal information in the following situations:
+                  </p>
+                  <ul>
+                    <li><strong>With Service Providers.</strong> We may share Your personal information with Service Providers to monitor and analyze the use of our Service, to contact You.</li>
+                    <li><strong>For business transfers:</strong> We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.</li>
+                    <li><strong>With Affiliates:</strong> We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.</li>
+                    <li><strong>With business partners:</strong> We may share Your information with Our business partners to offer You certain products, services or promotions.</li>
+                    <li><strong>With other users:</strong> when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.</li>
+                    <li><strong>With Your consent:</strong> We may disclose Your personal information for any other purpose with Your consent.</li>
+                  </ul>
+                  <h5>Could my information be transferred to other countries?</h5>
+                  <p>We are incorporated in Lithuania. Information collected via our website, through direct interactions with you, or from use of our help services may be transferred from time to time to our offices or personnel, or to third parties, located throughout the world, and may be viewed and hosted anywhere in the world, including countries that may not have laws of general applicability regulating the use and transfer of such data. To the fullest extent allowed by applicable law, by using any of the above, you voluntarily consent to the trans- border transfer and hosting of such information.</p>
+                  <h5>Retention of Your Personal Data</h5>
+                  <p>The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.
 
-                                      The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.</p>
-                                      <h5>Disclosure of Your Personal Data</h5>
-                                      <h6><strong>Business Transactions</strong></h6>
-                                      If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.
-                                      <br/>
-                                      <p><strong>The Company may disclose Your Personal Data in the good faith belief</strong> that such action is necessary to:</p>
-                                      <ul>
-                                        <li>Comply with a legal obligation</li>
-                                        <li>Protect and defend the rights or property of the Company</li>
-                                        <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
-                                        <li>Protect the personal safety of Users of the Service or the public</li>
-                                        <li>Protect against legal liability</li>
-                                      </ul>
-                                      <p>The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data,<strong>We cannot guarantee its absolute security</strong>.</p>
+                  The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.</p>
+                  <h5>Disclosure of Your Personal Data</h5>
+                  <h6><strong>Business Transactions</strong></h6>
+                  If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.
+                  <br/>
+                  <p><strong>The Company may disclose Your Personal Data in the good faith belief</strong> that such action is necessary to:</p>
+                  <ul>
+                    <li>Comply with a legal obligation</li>
+                    <li>Protect and defend the rights or property of the Company</li>
+                    <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
+                    <li>Protect the personal safety of Users of the Service or the public</li>
+                    <li>Protect against legal liability</li>
+                  </ul>
+                  <p>The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data,<strong>We cannot guarantee its absolute security</strong>.</p>
 
-                                      </Card.Body>
-                                    </Accordion.Collapse>
-                                  </Card.Header>
-                                </Card>
-                                <Card className="accordion-item">
-                                  <Card.Header className="accordion-header mt-0 ">
-                                    <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="2">
-                                      <h5>Links to Other Websites</h5>
-                                    </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey="2">
-                                      <Card.Body className="text-left">
-                                     <p>Our Service may contain links to other websites that are not operated by Us.
-                                      If You click on a third party link, You will be directed to that third party's site.
-                                       We strongly advise You to review the Privacy Policy of every site You visit.
-                                       We have no control over and assume no responsibility for the content,
-                                        privacy policies or practices of any third party sites or services.</p>
-                                      </Card.Body>
-                                    </Accordion.Collapse>
-                                  </Card.Header>
-                                </Card>
-                                <Card className="accordion-item">
-                                  <Card.Header className="accordion-header mt-0 ">
-                                    <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="3">
-                                      <h5>Changes to this Privacy Policy</h5>
-                                    </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey="3">
-                                      <Card.Body className="text-left">
-                                     <p>We may update Our Privacy Policy from time to time.
-                                        We will notify You of any changes by posting the new Privacy Policy on this page.
-                                        We will let You know via email and/or a prominent notice on Our Service,
-                                         prior to the change becoming effective and update the "Last updated" date at the top
-                                         of this Privacy Policy.
-                                         You are advised to review this Privacy Policy periodically for any changes.
-                                         Changes to this Privacy Policy are effective when they are posted on this page.</p>
-                                      </Card.Body>
-                                    </Accordion.Collapse>
-                                  </Card.Header>
-                                </Card>
-                                <div className="mt-4 pb-1"><p>If you have any questions about this Privacy Policy, You can contact us: tomas@dehash.lt</p></div>
-                                </Accordion>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card.Header>
+            </Card>
+            <Card className="accordion-item">
+              <Card.Header className="accordion-header mt-0 ">
+                <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="2">
+                  <h5>Links to Other Websites</h5>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="2">
+                  <Card.Body className="text-left">
+                  <p>Our Service may contain links to other websites that are not operated by Us.
+                  If You click on a third party link, You will be directed to that third party's site.
+                    We strongly advise You to review the Privacy Policy of every site You visit.
+                    We have no control over and assume no responsibility for the content,
+                    privacy policies or practices of any third party sites or services.</p>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card.Header>
+            </Card>
+            <Card className="accordion-item">
+              <Card.Header className="accordion-header mt-0 ">
+                <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="3">
+                  <h5>Changes to this Privacy Policy</h5>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="3">
+                  <Card.Body className="text-left">
+                  <p>We may update Our Privacy Policy from time to time.
+                    We will notify You of any changes by posting the new Privacy Policy on this page.
+                    We will let You know via email and/or a prominent notice on Our Service,
+                      prior to the change becoming effective and update the "Last updated" date at the top
+                      of this Privacy Policy.
+                      You are advised to review this Privacy Policy periodically for any changes.
+                      Changes to this Privacy Policy are effective when they are posted on this page.</p>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card.Header>
+            </Card>
+            <Card className="accordion-item">
+              <Card.Header className="accordion-header mt-0 ">
+                <Accordion.Toggle className="text-left w-100" as={Button} variant="white" eventKey="4">
+                  <h5>Request your data removal</h5>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="4">
+                  <Card.Body className="text-left">
+
+                    <Toast onClose={() =>{this.setState({toastState:{text:"",show:false}});} } show={this.state.toastState.show} delay={3000} autohide>
+                      <CustomToast text={this.state.toastState.text}></CustomToast>
+                    </Toast>
+
+                    <p>You can request to remove your data that we collected by filling this form.<br/>
+                      <b>Note: You must make data removal request from the same IP address you made queries to our service.</b>
+                    </p>
+                    <Form onSubmit={
+                      (event:any) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        this.handleSubmit(event);
+                        }
+                      }
+                    >
+
+                      <p>
+                        <b>Requester's Email Address: </b>
+                        <Form.Control className="mx-1 rounded" name='removeRequestEmail'  placeholder="Email Address" />
+                      </p>
+                      <p>
+                        <b>Requester's Full Name: </b>
+                        <Form.Control className="mx-1 rounded" name='removeRequestFullName'  placeholder="Full Name" />
+                      </p>
+                      <p>
+                        <b>Reason For Removal: </b>
+                        <Form.Control className="mx-1 rounded" name='removeRequestReason'  placeholder="Reason" />
+                      </p>
+                      <p>
+                        <b>Additional Note: </b>
+                        <Form.Control className="mx-1 rounded" name='removeRequestAdditional'  placeholder="Additional Note" />
+                      </p>
+                      <p>
+                        <Button className="mt-2" variant="primary" type="submit">Request Data Removal</Button>
+                      </p> 
+
+                    </Form>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card.Header>
+            </Card>
+            <div className="mt-4 pb-1"><p>If you have any questions about this Privacy Policy, You can contact us: tomasvanagas@ymail.com</p></div>
+          </Accordion>
                             
-                        </div>
-
+        </div>
       </Container>
       
     )
