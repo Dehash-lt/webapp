@@ -264,9 +264,9 @@ const MenuBar=({callback}:any)=>{
           <NavbarToggle aria-controls="responsive-navbar-nav" onClick={()=>setExpanded(expanded ? false:true)}/>
           <NavbarCollapse id="responsive-navbar-nav" className="justify-content-end">
             <Nav className="mr-auto justify-content-end" >
-              <Nav.Link><Link onClick={()=>setExpanded(false)}  to="section" href="#home"><Navbar.Toggle>Home</Navbar.Toggle></Link></Nav.Link>
-              <Nav.Link><Link onClick={()=>setExpanded(false)}  to="section1" href="#about"><Navbar.Toggle>About Us</Navbar.Toggle></Link></Nav.Link>
-              <Nav.Link><Link onClick={()=>setExpanded(false)}  to="section2" href="#data"><Navbar.Toggle>Data Sources</Navbar.Toggle></Link></Nav.Link>
+              <Nav.Link><Link onClick={()=>{setExpanded(false);callback(0)}}  to="section" href="#home"><Navbar.Toggle>Home</Navbar.Toggle></Link></Nav.Link>
+              <Nav.Link><Link onClick={()=>{setExpanded(false);callback(0)}}  to="section1" href="#about"><Navbar.Toggle>About Us</Navbar.Toggle></Link></Nav.Link>
+              <Nav.Link><Link onClick={()=>{setExpanded(false);callback(0)}}  to="section2" href="#data"><Navbar.Toggle>Data Sources</Navbar.Toggle></Link></Nav.Link>
               <Nav.Link><Navbar.Toggle><a onClick={()=> window.open("https://github.com/Dehash-lt/api#dehashlt-api", "_blank")}>API</a></Navbar.Toggle></Nav.Link>
               <Nav.Link><Link onClick={()=>callback(1)} to="section" href="#policy"><Navbar.Toggle>Privacy Policy</Navbar.Toggle></Link></Nav.Link>
             </Nav>
