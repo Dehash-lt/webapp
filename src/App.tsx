@@ -246,6 +246,7 @@ class MainPage extends Component <any,any>{
 
 const MenuBar=({callback}:any)=>{
   const [navColor, setNavColor] = useState('light');
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     document.addEventListener("scroll", () => {
@@ -257,18 +258,17 @@ const MenuBar=({callback}:any)=>{
 
   return (
     <>
-      <Navbar fixed="top" className="justify-content-end" bg={navColor} variant="light"expand="lg">
+      <Navbar fixed="top" className="justify-content-end" bg={navColor} variant="light" expand="lg" expanded={expanded}>
         <Container>
           <Navbar.Brand onClick={()=>callback(0)} href="#home">Dehash.lt</Navbar.Brand>
-          <NavbarToggle aria-controls="responsive-navbar-nav"/>
+          <NavbarToggle aria-controls="responsive-navbar-nav" onClick={()=>setExpanded(expanded ? false:true)}/>
           <NavbarCollapse id="responsive-navbar-nav" className="justify-content-end">
             <Nav className="mr-auto justify-content-end" >
-              <Nav.Link><Link onClick={()=>callback(0)}  to="section" href="#home">Home</Link></Nav.Link>
-              <Nav.Link><Link onClick={()=>callback(0)}  to="section1" href="#about">About Us</Link></Nav.Link>
-              <Nav.Link><Link onClick={()=>callback(0)}  to="section2" href="#data">Data Sources</Link></Nav.Link>
-              <Nav.Link><a onClick={()=> window.open("https://github.com/Dehash-lt/api#dehashlt-api", "_blank")}>API</a></Nav.Link>
-              <Nav.Link><Link onClick={()=>callback(1)}
-                to="section" href="#policy">Privacy Policy</Link></Nav.Link>
+              <Nav.Link><Link onClick={()=>setExpanded(false)}  to="section" href="#home"><Navbar.Toggle>Home</Navbar.Toggle></Link></Nav.Link>
+              <Nav.Link><Link onClick={()=>setExpanded(false)}  to="section1" href="#about"><Navbar.Toggle>About Us</Navbar.Toggle></Link></Nav.Link>
+              <Nav.Link><Link onClick={()=>setExpanded(false)}  to="section2" href="#data"><Navbar.Toggle>Data Sources</Navbar.Toggle></Link></Nav.Link>
+              <Nav.Link><Navbar.Toggle><a onClick={()=> window.open("https://github.com/Dehash-lt/api#dehashlt-api", "_blank")}>API</a></Navbar.Toggle></Nav.Link>
+              <Nav.Link><Link onClick={()=>callback(1)} to="section" href="#policy"><Navbar.Toggle>Privacy Policy</Navbar.Toggle></Link></Nav.Link>
             </Nav>
           </NavbarCollapse>
         </Container>
@@ -591,13 +591,13 @@ class PrivacyPolicy extends Component <any,any>{
 
 
     axios({
-      method: 'post',
+      method: 'POST',
       url: "https://api.dehash.lt/removal.php",
-      headers: {'Content-Type' : 'application/json'}, 
+      headers: {'Content-Type': 'text/plain'}, 
       data: data
     })
     .then((response) => {
-      this.setState({results:response.data});
+      this.setState({toastState: {text:"Success",show:true} });
     }, (error) => {
       this.setState({toastState: {text:"Error submiting form data.",show:true} });
     })
@@ -608,7 +608,7 @@ class PrivacyPolicy extends Component <any,any>{
     return( 
       <Container fluid className="bg-gray mt-5 pt-5">
 
-        <div className="container px-5 pb-1">
+        <div className="container px-5 pb-1 no-padding">
           <Accordion className="accordion shadow mb-5">
             <div className="accordion-item">
                 <div className="d-flex align-items-center text-left px-4 py-5">

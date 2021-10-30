@@ -222,3 +222,29 @@ input#formHash{
     max-width: unset;
   }
 }
+
+
+
+
+  .no-padding{
+    padding-left: 0!important;
+    padding-right: 0!important;
+  }
+
+  .nav-link button.navbar-toggler{
+    width: 100%!important;
+    border: none!important;
+    display: block;
+  }
+  .nav-link{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  a.nav-link button {
+    width: 100%!important;
+    height: 100%!important;
+    border: none!important;
+    display: block;
+    font-size: 1rem;
+  }
